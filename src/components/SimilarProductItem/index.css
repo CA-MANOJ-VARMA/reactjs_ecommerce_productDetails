@@ -1,0 +1,9 @@
+/* Write your CSS here */
+.css-similarproduct-image-itself {
+  width: 300px;
+  border-radius: 11px;
+}
+
+.css-similarproductitem-container {
+  margin: 10px;
+}

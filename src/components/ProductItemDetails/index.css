@@ -1,0 +1,73 @@
+/* Write your CSS here */
+.css-productDetails-container {
+  display: flex;
+  gap: 20px;
+}
+
+.css-productDetails-image-itself {
+  width: 500px;
+  border-radius: 11px;
+}
+
+.css-productDetails-details-container {
+  width: 700px;
+}
+
+.css-rating-container {
+  background-color: blueviolet;
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 40px;
+  gap: 10px;
+  color: white;
+  padding-left: 5px;
+  border-radius: 11px;
+}
+
+.css-rating-review-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.css-star-image-itself {
+  width: 10px;
+  height: 10px;
+}
+
+.css-similarproducts-ul-container {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 30px;
+}
+
+.css-inc-dec-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.css-inc-dec-button {
+  background-color: transparent;
+  border-width: 0;
+}
+
+.css-inc-dec-button:hover {
+  cursor: pointer;
+}
+
+.css-addtocart-button-itself {
+  background-color: blueviolet;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  border-width: 0;
+}
+
+.css-productDetails-whole-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
