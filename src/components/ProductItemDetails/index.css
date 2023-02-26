@@ -71,3 +71,9 @@
   flex-direction: column;
   padding: 20px;
 }
+
+.css-failure-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

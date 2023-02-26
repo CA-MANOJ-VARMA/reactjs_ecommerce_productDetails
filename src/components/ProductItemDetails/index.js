@@ -3,6 +3,7 @@ import './index.css'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import {Link, Redirect} from 'react-router-dom'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import Header from '../Header'
 import SimilarProductItem from '../SimilarProductItem'
@@ -12,7 +13,6 @@ const apiStatusConstants = {
   progress: 'PROGRESS',
   failure: 'FAILURE',
   success: 'SUCCESS',
-  noresults: 'NORESULTS',
 }
 
 class ProductItemDetails extends Component {
@@ -20,6 +20,7 @@ class ProductItemDetails extends Component {
     productDetails: [],
     similarProducts: [],
     apiStatus: apiStatusConstants.initial,
+    productCount: 1,
   }
 
   componentDidMount() {
@@ -52,7 +53,7 @@ class ProductItemDetails extends Component {
         apiStatus: apiStatusConstants.success,
       })
     }
-    if (response.status_code) {
+    if (response.status_code === 404) {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
@@ -63,8 +64,25 @@ class ProductItemDetails extends Component {
     </div>
   )
 
+  incFunction = () => {
+    this.setState(prevState => ({
+      productCount: prevState.productCount + 1,
+    }))
+  }
+
+  decFunction = () => {
+    const {productCount} = this.state
+    if (productCount > 1) {
+      this.setState(prevState => ({
+        productCount: prevState.productCount - 1,
+      }))
+    }
+  }
+
+  retryButton = () => <Redirect to="/products" />
+
   successView = () => {
-    const {productDetails, similarProducts} = this.state
+    const {productDetails, similarProducts, productCount} = this.state
     console.log(productDetails)
     console.log(similarProducts)
     return (
@@ -96,11 +114,21 @@ class ProductItemDetails extends Component {
             <p>Brand: {productDetails.brand}</p>
             <hr />
             <div className="css-inc-dec-button-container">
-              <button type="button" className="css-inc-dec-button">
+              <button
+                type="button"
+                className="css-inc-dec-button"
+                onClick={this.decFunction}
+                data-testid="minus"
+              >
                 <BsDashSquare />
               </button>
-              <p>1</p>
-              <button type="button" className="css-inc-dec-button">
+              <p>{productCount}</p>
+              <button
+                type="button"
+                className="css-inc-dec-button"
+                onClick={this.incFunction}
+                data-testid="plus"
+              >
                 <BsPlusSquare />
               </button>
             </div>
@@ -113,13 +141,31 @@ class ProductItemDetails extends Component {
           <h1>Similar Products</h1>
           <ul className="css-similarproducts-ul-container">
             {similarProducts.map(eachProduct => (
-              <SimilarProductItem product={eachProduct} />
+              <SimilarProductItem product={eachProduct} key={eachProduct.id} />
             ))}
           </ul>
         </div>
       </>
     )
   }
+
+  failureView = () => (
+    <>
+      <div className="css-failure-view-container">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
+          alt="failure view"
+          style={{
+            width: '250px',
+          }}
+        />
+        <h1 style={{fontSize: '15px'}}>Product Not Found</h1>
+        <button type="button" onClick={this.retryButton}>
+          Continue Shopping
+        </button>
+      </div>
+    </>
+  )
 
   statusFunction = () => {
     const {apiStatus} = this.state
@@ -130,8 +176,6 @@ class ProductItemDetails extends Component {
         return this.successView()
       case apiStatusConstants.failure:
         return this.failureView()
-      case apiStatusConstants.noresults:
-        return this.noResultsView()
       default:
         return null
     }

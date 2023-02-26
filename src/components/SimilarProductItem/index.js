@@ -6,7 +6,7 @@ const SimilarProductItem = props => {
   console.log(product)
 
   return (
-    <li className="css-li-container">
+    <li className="css-li-container" key={product.id}>
       <div className="css-similarproductitem-container">
         <img
           src={product.image_url}
